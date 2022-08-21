@@ -28,12 +28,15 @@ export default function Auth({}) {
       <div className="col-6">
         <h1 className="header">Supabase Auth + Storage</h1>
         <p className="">
-          Experience our Auth and Storage through a simple profile management example. Create a user
-          profile and upload an avatar image. Fast, simple, secure.
+          Experience our Auth and Storage through a simple profile management
+          example. Create a user profile and upload an avatar image. Fast,
+          simple, secure.
         </p>
       </div>
       <div className="col-6 auth-widget">
-        <p className="description">Sign in via magic link with your email below</p>
+        <p className="description">
+          Sign in via magic link with your email below
+        </p>
         <div>
           <input
             className="inputField"
@@ -52,7 +55,7 @@ export default function Auth({}) {
             className={'button block'}
             disabled={loading}
           >
-            {loading ? <img className="loader" src="loader.svg" /> : <span>Send magic link</span>}
+            {loading ? <span>WAIT!</span> : <span>Send magic link</span>}
           </button>
         </div>
       </div>

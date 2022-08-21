@@ -1,14 +1,22 @@
+import Link from 'next/link'
+
 export const Nav = () => {
   return (
     <ul className="nav">
       <li>
-        <a href="/">index</a>
+        <Link href="/">
+          <a>index</a>
+        </Link>
       </li>
       <li>
-        <a href="/signup">Register</a>
+        <Link href="/signup">
+          <a>Register</a>
+        </Link>
       </li>
       <li>
-        <a href="/signin">Log In</a>
+        <Link href="/signin">
+          <a>Log In</a>
+        </Link>
       </li>
       {/* <li>
         <a href="/dashboard">dashboard</a>
