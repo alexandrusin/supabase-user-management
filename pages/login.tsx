@@ -1,21 +1,24 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Nav } from '../components/Nav'
 import { supabase } from '../lib/supabaseClient'
 
-export default function SignUp() {
+export default function SignIn() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleRegister = async (email: string, password: string) => {
+  const handleLogin = async (email: string, password: string) => {
     try {
       setLoading(true)
       // const { error, user } = await supabase.auth.signIn({ email })
-      const { error, data } = await supabase.auth.signUp({ email, password })
+      const { error, data } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
       if (error) throw error
-      alert('Somehtings up!')
     } catch (error) {
       if (error instanceof Error) {
         console.log('Error thrown:', error.message)
@@ -30,7 +33,7 @@ export default function SignUp() {
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
       <Nav />
-      <h1>REGISTER</h1>
+      <h1>LOGIN</h1>
       <label htmlFor="email">Email</label>
       <input
         type="email"
@@ -38,7 +41,8 @@ export default function SignUp() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-
+      <br />
+      <br />
       <label htmlFor="password">Password</label>
       <input
         type="password"
@@ -46,15 +50,22 @@ export default function SignUp() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      <br />
+      <br />
       <button
         disabled={loading}
         onClick={(e) => {
           e.preventDefault()
-          handleRegister(email, password)
+          handleLogin(email, password)
         }}
       >
-        SIGNUP
+        Login
       </button>
+      <br />
+      <br />
+      <Link href="/reset">
+        <a>Lost Password?</a>
+      </Link>
     </div>
   )
 }

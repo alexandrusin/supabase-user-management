@@ -7,6 +7,9 @@ export default function ProfileCard({ profile }: { profile: Profile }) {
     <div className="profileCard">
       <Avatar url={profile.avatar_url} size={100} />
       <div className="userInfo">
+        <p className="username">
+          {profile.first_name} {profile.last_name}
+        </p>
         <p className="username">{profile.username}</p>
         <a
           className="website"

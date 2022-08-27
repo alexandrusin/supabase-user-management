@@ -13,6 +13,8 @@ export default function Home() {
   const [profiles, setProfiles] = useState<Profile[]>([])
 
   useEffect(() => {
+    getPublicProfiles()
+
     const fetchData = async () => {
       const { data } = await supabase.auth.getSession()
       return data
@@ -33,15 +35,17 @@ export default function Home() {
     )
   }, [])
 
-  useEffect(() => {
-    getPublicProfiles()
-  }, [])
+  // useEffect(() => {
+  //   getPublicProfiles()
+  // }, [])
 
   async function getPublicProfiles() {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, username, avatar_url, website, updated_at')
+        .select(
+          'id, username, first_name, last_name, avatar_url, website, updated_at'
+        )
         .order('updated_at', { ascending: false })
 
       if (error || !data) {

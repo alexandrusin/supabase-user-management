@@ -10,9 +10,15 @@ export default function Account({ session }: { session: AuthSession }) {
   const [uploading, setUploading] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string | null>(null)
   const [username, setUsername] = useState<string | null>(null)
+  const [firstName, setFirstName] = useState<string | null>(null)
+  const [lastName, setLastName] = useState<string | null>(null)
   const [website, setWebsite] = useState<string | null>(null)
 
   useEffect(() => {
+    console.log('HELLO SESH', session)
+    setFirstName(session?.user?.user_metadata?.first_name)
+    setLastName(session?.user?.user_metadata?.last_name)
+
     getProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session])
@@ -68,6 +74,8 @@ export default function Account({ session }: { session: AuthSession }) {
     setAvatar(profile.avatar_url)
     setUsername(profile.username)
     setWebsite(profile.website)
+    setFirstName(profile.first_name)
+    setLastName(profile.last_name)
   }
 
   async function getProfile() {
@@ -77,11 +85,14 @@ export default function Account({ session }: { session: AuthSession }) {
 
       let { data, error } = await supabase
         .from('profiles')
-        .select(`username, website, avatar_url, updated_at, id`)
+        .select(
+          `username, first_name, last_name, website, avatar_url, updated_at, id`
+        )
         .eq('id', user!.id)
         .single()
 
       if (error) {
+        console.error(error)
         throw error
       }
 
@@ -104,6 +115,8 @@ export default function Account({ session }: { session: AuthSession }) {
         id: user!.id,
         username,
         website,
+        first_name: firstName,
+        last_name: lastName,
         updated_at: new Date(),
       }
 
@@ -156,6 +169,24 @@ export default function Account({ session }: { session: AuthSession }) {
           type="website"
           value={website || ''}
           onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="firstName">First Name</label>
+        <input
+          id="firstName"
+          type="text"
+          value={firstName || ''}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="lastName">Last Name</label>
+        <input
+          id="lastName"
+          type="text"
+          value={lastName || ''}
+          onChange={(e) => setLastName(e.target.value)}
         />
       </div>
 

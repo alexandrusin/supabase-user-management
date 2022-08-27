@@ -9,13 +9,18 @@ export const Nav = () => {
         </Link>
       </li>
       <li>
-        <Link href="/signup">
+        <Link href="/register">
           <a>Register</a>
         </Link>
       </li>
       <li>
-        <Link href="/signin">
+        <Link href="/login">
           <a>Log In</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/reset">
+          <a>Reset password</a>
         </Link>
       </li>
       {/* <li>
