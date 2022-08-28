@@ -1,0 +1,67 @@
+@use 'styles/abstracts/breakpoints' as *;
+
+.main-slider {
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  margin: var(--gap) 0;
+  .slide {
+    width: 100vw;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    @include mobile {
+      height: 200px;
+    }
+  }
+}
+
+.featured-slider {
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+  margin: var(--space-lg) 0;
+  .slide {
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+// remove space at the bottom of the slider
+.slick-list {
+  line-height: 0;
+  .info {
+    line-height: initial;
+  }
+}
+
+.slick-slider {
+  .slick-dots {
+    bottom: 15px;
+    right: 15px;
+    width: auto;
+    padding: 0 20px;
+    text-align: right;
+    li {
+      width: 50px;
+      height: unset;
+      button {
+        width: 50px;
+        height: unset;
+        &::before {
+          background: var(--color-neutral-1);
+          box-shadow: unset;
+          width: 50px;
+          border-radius: 2px;
+          height: 6px;
+          margin: 0 2px;
+          content: '';
+        }
+        &.slick-active button {
+          &::before {
+            background: var(--color-neutral-2);
+            content: '';
+          }
+        }
+      }
+    }
+  }
+}

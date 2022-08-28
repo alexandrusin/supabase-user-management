@@ -1,0 +1,39 @@
+/* Responsive Breakpoints */
+$break-sm: 48em;
+$break-md: 64em;
+$break-lg: 80em;
+
+// Mobile devices < 48em
+@mixin mobile {
+	@media (max-width: #{$break-sm}) {
+		@content;
+	}
+}
+
+// Medium devices  > 48em & < 64em
+@mixin tablet-only {
+	@media (min-width: #{$break-sm + 1}) and (max-width: #{$break-md - 1}) {
+		@content;
+	}
+}
+
+// Tablet devices < 64em
+@mixin tablet {
+	@media (max-width: #{$break-md - 1}) {
+		@content;
+	}
+}
+
+// Large devices > 64em
+@mixin desktop {
+	@media (min-width: #{$break-md}) {
+		@content;
+	}
+}
+
+// Large desktop devices > 80em
+@mixin desktop-large {
+	@media (min-width: #{$break-lg}) {
+		@content;
+	}
+}

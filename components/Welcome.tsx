@@ -4,33 +4,10 @@ import { supabase } from '../lib/supabaseClient'
 import { Profile } from '../lib/constants'
 import Link from 'next/link'
 
-export default function Welcome() {
+export default function Welcome({ session }: { session: AuthSession }) {
   const [loading, setLoading] = useState<boolean>(true)
-  const [session, setSession] = useState<AuthSession | null>(null)
-
-  const firstName = session?.user?.user_metadata?.first_name
-  const lastName = session?.user?.user_metadata?.last_name
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await supabase.auth.getSession()
-      return data
-    }
-
-    fetchData()
-      .then(({ session }) => {
-        setSession(session)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
-    supabase.auth.onAuthStateChange(
-      (_event: string, session: AuthSession | null) => {
-        setSession(session)
-      }
-    )
-
     console.log('HELLO SESH', session)
 
     createProfile()
@@ -44,8 +21,8 @@ export default function Welcome() {
 
       const updates = {
         id: user!.id,
-        first_name: firstName,
-        last_name: lastName,
+        first_name: session?.user?.user_metadata?.first_name,
+        last_name: session?.user?.user_metadata?.last_name,
         updated_at: new Date(),
       }
 
@@ -65,7 +42,7 @@ export default function Welcome() {
 
   return (
     <>
-      <div>Welcome, {firstName}</div>
+      <div>Welcome, {session?.user?.user_metadata?.last_name}</div>
       <Link href="/">
         <a>Check your profile!</a>
       </Link>

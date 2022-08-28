@@ -1,0 +1,48 @@
+:root {
+	/* SPACES */
+	--space-3xs: 2px;
+	--space-2xs: 4px;
+	--space-xs: 8px;
+	--space-sm: 12px;
+	--space-md: 16px;
+	--space-lg: 20px;
+	--space-xl: 24px;
+	--space-2xl: 32px;
+	--space-3xl: 48px;
+
+	--gap: var(--space-sm);
+
+	/* font-size */
+	--text-3xs: 8px;
+	--text-2xs: 10px;
+	--text-xs: 12px;
+	--text-sm: 14px;
+	--text-md: 16px;
+	--text-lg: 18px;
+	--text-xl: 20px;
+	--text-2xl: 24px;
+	--text-3xl: 32px;
+	--text-4xl: 48px;
+	--text-5xl: 64px;
+	--text-6xl: 76px;
+
+	/* border radius */
+	--radius-xs: 10px;
+	--radius-sm: 12px;
+	--radius-md: 24px;
+	--radius-lg: 48px;
+
+	--header-height: 80px;
+	--content-width: 1400px;
+}
+
+// Z-INDEX MAP
+// 000–199: Elements and Components
+// 200–299: Element and Component Drop Downs
+// 300–399: Secondary Navigation
+// 400–499: Header / Footer
+// 500–599: Primary Navigation
+// 600–699: Full Screen Features
+// 700–799: Special Cases
+// 800–899: Modals / Dialog Windows
+// 900–999: Notifications

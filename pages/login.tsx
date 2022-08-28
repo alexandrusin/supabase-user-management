@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { Nav } from '../components/Nav'
 import { supabase } from '../lib/supabaseClient'
 
 export default function SignIn() {
@@ -26,13 +25,12 @@ export default function SignIn() {
       }
     } finally {
       setLoading(false)
-      router.push('/')
+      router.push('/account')
     }
   }
 
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      <Nav />
       <h1>LOGIN</h1>
       <label htmlFor="email">Email</label>
       <input

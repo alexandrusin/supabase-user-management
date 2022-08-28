@@ -1,0 +1,67 @@
+@use 'styles/abstracts/breakpoints' as *;
+
+.showcase-categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: var(--gap);
+  @include tablet {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    flex: 1;
+    background: var(--color-neutral-1);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    padding: var(--space-xl);
+  }
+  .image {
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    border-radius: 50%;
+    border: var(--gap) solid var(--color-white);
+    cursor: pointer;
+    transition: border 0.4s ease-in-out;
+    &:hover {
+      border: var(--gap) solid var(--color-cream-4);
+    }
+  }
+  .title {
+    text-align: center;
+    position: relative;
+    font-weight: 500;
+    line-height: 1;
+    z-index: 2;
+    color: var(--color-cream-5);
+
+    span {
+      color: var(--color-cream-4);
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+  }
+  .description {
+    flex: 1;
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-neutral-2);
+  }
+  .info {
+    text-align: center;
+  }
+  .primary-button {
+    gap: var(--space-xs);
+    .helper {
+      font-weight: 300;
+    }
+    .label {
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+  }
+}

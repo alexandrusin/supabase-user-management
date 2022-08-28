@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { Nav } from '../components/Nav'
 import { supabase } from '../lib/supabaseClient'
 
 export default function ResetPassword() {
@@ -37,7 +36,6 @@ export default function ResetPassword() {
 
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      <Nav />
       <div>
         <h1>Reset password</h1>
         <label htmlFor="email">Type in your email address</label>

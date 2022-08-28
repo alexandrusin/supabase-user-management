@@ -1,11 +1,11 @@
 import { useState, useEffect, ChangeEvent } from 'react'
 import { supabase } from '../lib/supabaseClient'
-import UploadButton from '../components/UploadButton'
-import Avatar from './Avatar'
+import UploadButton from 'components/UploadButton'
+import Avatar from 'components/Avatar'
 import { AuthSession } from '@supabase/supabase-js'
 import { DEFAULT_AVATARS_BUCKET, Profile } from '../lib/constants'
 
-export default function Account({ session }: { session: AuthSession }) {
+export default function Account() {
   const [loading, setLoading] = useState<boolean>(true)
   const [uploading, setUploading] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string | null>(null)
@@ -14,12 +14,36 @@ export default function Account({ session }: { session: AuthSession }) {
   const [lastName, setLastName] = useState<string | null>(null)
   const [website, setWebsite] = useState<string | null>(null)
 
+  const [session, setSession] = useState<AuthSession | null>(null)
+
   useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await supabase.auth.getSession()
+      return data
+    }
+
+    fetchData()
+      .then(({ session }) => {
+        setSession(session)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    supabase.auth.onAuthStateChange(
+      (_event: string, session: AuthSession | null) => {
+        setSession(session)
+      }
+    )
+
     console.log('HELLO SESH', session)
+    getProfile()
+  }, [])
+
+  useEffect(() => {
     setFirstName(session?.user?.user_metadata?.first_name)
     setLastName(session?.user?.user_metadata?.last_name)
 
-    getProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session])
 

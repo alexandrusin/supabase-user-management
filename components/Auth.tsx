@@ -24,41 +24,31 @@ export default function Auth({}) {
   }
 
   return (
-    <div className="row">
-      <div className="col-6">
-        <h1 className="header">Supabase Auth + Storage</h1>
-        <p className="">
-          Experience our Auth and Storage through a simple profile management
-          example. Create a user profile and upload an avatar image. Fast,
-          simple, secure.
-        </p>
+    <>
+      <p className="description">
+        Sign in via magic link with your email below
+      </p>
+      <div>
+        <input
+          className="inputField"
+          type="email"
+          placeholder="Your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </div>
-      <div className="col-6 auth-widget">
-        <p className="description">
-          Sign in via magic link with your email below
-        </p>
-        <div>
-          <input
-            className="inputField"
-            type="email"
-            placeholder="Your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <button
-            onClick={(e) => {
-              e.preventDefault()
-              handleLogin(email)
-            }}
-            className={'button block'}
-            disabled={loading}
-          >
-            {loading ? <span>WAIT!</span> : <span>Send magic link</span>}
-          </button>
-        </div>
+      <div>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            handleLogin(email)
+          }}
+          className={'button block'}
+          disabled={loading}
+        >
+          {loading ? <span>WAIT!</span> : <span>Send magic link</span>}
+        </button>
       </div>
-    </div>
+    </>
   )
 }

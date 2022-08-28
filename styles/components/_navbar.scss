@@ -1,0 +1,48 @@
+@use 'styles/abstracts/breakpoints' as *;
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  align-self: normal;
+
+  @include mobile {
+    margin-top: var(--space-md);
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    flex-wrap: wrap;
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-sm);
+
+      font-size: var(--text-lg);
+      font-weight: 400;
+      font-family: 'Oswald';
+
+      // TODO: set the active class and font styles on the link
+      &.active {
+        a {
+          color: var(--color-black);
+          border-bottom: 2px solid var(--color-accent);
+        }
+      }
+    }
+  }
+
+  a {
+    color: var(--color-neutral-7);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+}
