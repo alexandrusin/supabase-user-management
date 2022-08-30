@@ -84,6 +84,12 @@ hr {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: var(--gap);
+  @include tablet {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
 }
 
 .profile-card {
