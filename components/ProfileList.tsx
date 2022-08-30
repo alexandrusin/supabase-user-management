@@ -21,7 +21,10 @@ type ProfileListProps = {
 
 const handleDatabaseEvent = (state: State, action: Action) => {
   if (action.type === 'upsert') {
-    const otherProfiles = state.profiles.filter((x) => x.id != action.payload.id)
+    const otherProfiles = state.profiles.filter(
+      (x) => x.id != action.payload.id
+      // (x) => x.id != action.payload.id && x.user_type === 'model'
+    )
     return {
       profiles: [action.payload, ...otherProfiles],
     }
@@ -40,13 +43,21 @@ export default function ProfileList({ profiles }: ProfileListProps) {
   useEffect(() => {
     supabase
       .channel('subscription', {})
-      .on('realtime', { event: '*', schema: 'public', table: 'profiles' }, () => {})
+      .on(
+        'realtime',
+        { event: '*', schema: 'public', table: 'profiles' },
+        () => {}
+      )
       .subscribe()
 
     return () => {
       supabase
         .channel('subscription', {})
-        .on('realtime', { event: '*', schema: 'public', table: 'profiles' }, () => {})
+        .on(
+          'realtime',
+          { event: '*', schema: 'public', table: 'profiles' },
+          () => {}
+        )
         .unsubscribe()
     }
   }, [])
@@ -58,13 +69,34 @@ export default function ProfileList({ profiles }: ProfileListProps) {
   return (
     <>
       {state.profiles.length === 0 ? (
-        <p className="opacity-half m-0 font-light">There are no public profiles created yet</p>
+        <p className="opacity-half m-0 font-light">
+          There are no public profiles created yet
+        </p>
       ) : (
-        <div className="profileList">
-          {state.profiles?.map((profile: any) => (
-            <ProfileCard profile={profile} key={profile.id} />
-          ))}
-        </div>
+        <>
+          <h3>Model Profiles</h3>
+          <hr />
+          <br />
+          <div className="profile-list">
+            {state.profiles
+              ?.filter((profile: any) => profile.user_type === 'model')
+              .map((profile: any) => (
+                <ProfileCard profile={profile} key={profile.id} />
+              ))}
+          </div>
+          <br />
+          <br />
+          <h3>Client Profiles</h3>
+          <hr />
+          <br />
+          <div className="profile-list">
+            {state.profiles
+              ?.filter((profile: any) => profile.user_type === 'client')
+              .map((profile: any) => (
+                <ProfileCard profile={profile} key={profile.id} />
+              ))}
+          </div>
+        </>
       )}
     </>
   )

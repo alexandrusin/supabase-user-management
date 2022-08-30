@@ -5,23 +5,31 @@ import Avatar from './Avatar'
 import { AuthSession } from '@supabase/supabase-js'
 import { DEFAULT_AVATARS_BUCKET, Profile } from '../lib/constants'
 
+import { FaUserCircle } from 'react-icons/fa'
+
 export default function Account({ session }: { session: AuthSession }) {
   const [loading, setLoading] = useState<boolean>(true)
   const [uploading, setUploading] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string | null>(null)
-  const [username, setUsername] = useState<string | null>(null)
-  const [firstName, setFirstName] = useState<string | null>(null)
-  const [lastName, setLastName] = useState<string | null>(null)
-  const [website, setWebsite] = useState<string | null>(null)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [birthday, setBirthday] = useState<string | undefined>(undefined)
+  const [company, setCompany] = useState<string | undefined>(undefined)
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [userType, setUserType] = useState('')
 
   useEffect(() => {
     console.log('HELLO SESH', session)
-    setFirstName(session?.user?.user_metadata?.first_name)
-    setLastName(session?.user?.user_metadata?.last_name)
 
     getProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session])
+
+  useEffect(() => {
+    return () => {
+      // This is the cleanup function
+    }
+  }, [])
 
   async function signOut() {
     const { error } = await supabase.auth.signOut()
@@ -72,10 +80,12 @@ export default function Account({ session }: { session: AuthSession }) {
 
   function setProfile(profile: Profile) {
     setAvatar(profile.avatar_url)
-    setUsername(profile.username)
-    setWebsite(profile.website)
     setFirstName(profile.first_name)
     setLastName(profile.last_name)
+    setPhoneNumber(profile.phone_number)
+    setUserType(profile.user_type)
+    setCompany(profile.company)
+    setBirthday(profile.birthday)
   }
 
   async function getProfile() {
@@ -86,7 +96,7 @@ export default function Account({ session }: { session: AuthSession }) {
       let { data, error } = await supabase
         .from('profiles')
         .select(
-          `username, first_name, last_name, website, avatar_url, updated_at, id`
+          `first_name, last_name, phone_number, user_type, avatar_url, updated_at, id, company, birthday`
         )
         .eq('id', user!.id)
         .single()
@@ -113,10 +123,11 @@ export default function Account({ session }: { session: AuthSession }) {
 
       const updates = {
         id: user!.id,
-        username,
-        website,
         first_name: firstName,
         last_name: lastName,
+        phone_number: phoneNumber,
+        company: company,
+        birthday: birthday,
         updated_at: new Date(),
       }
 
@@ -134,77 +145,119 @@ export default function Account({ session }: { session: AuthSession }) {
     }
   }
 
-  return (
-    <div className="account">
-      <div>
-        <label htmlFor="avatar">Avatar image</label>
-        <div className="avatarField">
-          <div className="avatarContainer">
-            {avatar ? (
-              <Avatar url={avatar} size={35} />
-            ) : (
-              <div className="avatarPlaceholder">?</div>
-            )}
+  const userAvatarForm = () => {
+    return (
+      <div className="avatar-form">
+        {avatar ? (
+          <Avatar url={avatar} size={150} />
+        ) : (
+          <div className="avatar_placeholder">
+            <FaUserCircle />
           </div>
-          <UploadButton onUpload={uploadAvatar} loading={uploading} />
+        )}
+        <UploadButton onUpload={uploadAvatar} loading={uploading} />
+      </div>
+    )
+  }
+
+  const userDetailsForm = () => {
+    return (
+      <form
+        className="account-form"
+        onSubmit={(e) => {
+          e.preventDefault()
+          updateProfile()
+        }}
+      >
+        <div className="input-wrapper">
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" value={session.user.email} disabled />
         </div>
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="username">Name</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="website"
-          value={website || ''}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="firstName">First Name</label>
-        <input
-          id="firstName"
-          type="text"
-          value={firstName || ''}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          id="lastName"
-          type="text"
-          value={lastName || ''}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-      </div>
+        <div className="input-wrapper">
+          <label htmlFor="firstName">Prenume</label>
+          <input
+            type="text"
+            id="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-wrapper">
+          <label htmlFor="lastName">Nume</label>
+          <input
+            type="text"
+            id="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-wrapper">
+          <label htmlFor="phone">Telefon</label>
+          <input
+            type="text"
+            id="phone"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            required
+          />
+        </div>
+        <hr />
 
-      <div>
-        <button
-          className="button primary block"
-          onClick={() => updateProfile()}
-          disabled={loading}
-        >
-          {loading ? 'Loading ...' : 'Update'}
-        </button>
-      </div>
+        {userType === 'model' && (
+          <div className="input-wrapper">
+            <label htmlFor="birthday">Birthday</label>
+            <input
+              type="date"
+              id="birthday"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+              required
+            />
+          </div>
+        )}
 
-      <div>
-        <button className="button block" onClick={() => signOut()}>
-          Sign Out
-        </button>
-      </div>
-    </div>
+        {userType === 'client' && (
+          <div className="input-wrapper">
+            <label htmlFor="company">Company</label>
+            <input
+              type="text"
+              id="company"
+              value={company || ''}
+              onChange={(e) => setCompany(e.target.value)}
+              required
+            />
+          </div>
+        )}
+
+        <hr />
+        <div className="actions">
+          <button
+            type="submit"
+            className="button primary-button fluid-width action"
+            disabled={loading}
+          >
+            {loading ? 'Loading ...' : 'Update'}
+          </button>
+          <button
+            className="button secondary-button fluid-width action"
+            onClick={() => signOut()}
+          >
+            Log Out
+          </button>
+        </div>
+      </form>
+    )
+  }
+
+  return (
+    <>
+      {'Welcome, ' + firstName + ' (' + userType + ')'}
+      <hr />
+      {userAvatarForm()}
+      <hr />
+      {userDetailsForm()}
+    </>
   )
 }

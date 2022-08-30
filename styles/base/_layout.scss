@@ -1,0 +1,32 @@
+@use 'styles/abstracts/breakpoints' as *;
+
+html {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+.app {
+  max-width: 100vw;
+}
+
+main {
+  &.container {
+    margin-top: calc(var(--space-xl) + var(--header-height));
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: var(--content-width);
+  padding: 0 var(--space-md);
+  margin: 0 auto;
+  @include desktop {
+    padding: 0 var(--space-2xl);
+  }
+}
+
+.card {
+  background: var(--color-neutral-1);
+  border-radius: var(--radius-xs);
+  padding: var(--space-xl);
+}

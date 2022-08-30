@@ -13,8 +13,6 @@ export default function Home() {
   const [profiles, setProfiles] = useState<Profile[]>([])
 
   useEffect(() => {
-    getPublicProfiles()
-
     const fetchData = async () => {
       const { data } = await supabase.auth.getSession()
       return data
@@ -35,16 +33,16 @@ export default function Home() {
     )
   }, [])
 
-  // useEffect(() => {
-  //   getPublicProfiles()
-  // }, [])
+  useEffect(() => {
+    getPublicProfiles()
+  }, [])
 
   async function getPublicProfiles() {
     try {
       const { data, error } = await supabase
         .from('profiles')
         .select(
-          'id, username, first_name, last_name, avatar_url, website, updated_at'
+          'first_name, last_name, phone_number, user_type, avatar_url, updated_at, id, company, birthday'
         )
         .order('updated_at', { ascending: false })
 
@@ -62,23 +60,13 @@ export default function Home() {
 
   return (
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      <Nav />
       {!session ? (
-        <Auth />
+        'Please Login to view profiles'
       ) : (
-        <div className="row">
-          <div className="col-6">
-            <h3>Account</h3>
-            <Account key={session.user.id} session={session} />
-          </div>
-          <div className="col-6">
-            <h3>Public Profiles</h3>
-            <ProfileList profiles={profiles} />
-          </div>
-        </div>
+        <>
+          <ProfileList profiles={profiles} />
+        </>
       )}
-
-      <Footer />
     </div>
   )
 }

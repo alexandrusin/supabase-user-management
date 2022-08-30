@@ -23,9 +23,11 @@ export const Nav = () => {
           <a>Reset password</a>
         </Link>
       </li>
-      {/* <li>
-        <a href="/dashboard">dashboard</a>
-      </li> */}
+      <li>
+        <Link href="/account">
+          <a>Account</a>
+        </Link>
+      </li>
     </ul>
   )
 }

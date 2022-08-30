@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Nav } from '../components/Nav'
 import { supabase } from '../lib/supabaseClient'
 
@@ -10,25 +10,20 @@ export default function ResetPassword() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  // const [hash, setHash] = useState('')
-  // const accessToken = router.query.access_token as string
+  const accessToken = router.query.access_token as string
 
-  // https://dev.to/nextdev/how-to-use-password-reset-api-in-supabase-auth-with-the-help-of-nextjs-3ifm
-
-  useEffect(() => {
-    // setHash(window.location.hash);
-  }, [])
+  console.log('router', router)
 
   const handleResetPassword = async (email: string) => {
     try {
       setLoading(true)
-
-      const { error } = await supabase.auth.updateUser({
-        password: password,
+      // const { error, user } = await supabase.auth.signIn({ email })
+      const { error, data } = await supabase.auth.resetPasswordForEmail(email, {
+        // redirectTo: `http://localhost:3000/reset-password`,
+        redirectTo: `${window.location.origin}/new-password`,
       })
-
       if (error) throw error
-      alert('Changing Password!')
+      alert('Email sent!')
     } catch (error) {
       if (error instanceof Error) {
         console.log('Error thrown:', error.message)
@@ -36,37 +31,46 @@ export default function ResetPassword() {
       }
     } finally {
       setLoading(false)
-      router.push('/login')
+      // router.push('/')
     }
   }
 
+  const resetPasswordForm = () => {
+    return (
+      <form
+        className="password-form"
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleResetPassword(email)
+        }}
+      >
+        <div className="input-wrapper">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="actions">
+          <button
+            type="submit"
+            className="button primary-button fluid-width action"
+            disabled={loading}
+          >
+            Reset Password
+          </button>
+        </div>
+      </form>
+    )
+  }
+
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      <Nav />
-      <div>
-        <h1>Set your new password</h1>
-        <label htmlFor="email">Password</label>
-        <input
-          type={showPassword ? 'text' : 'password'}
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <span onClick={() => setShowPassword(!showPassword)}>
-          show password
-        </span>
-        <br />
-        <br />
-        <button
-          disabled={loading}
-          onClick={(e) => {
-            e.preventDefault()
-            handleResetPassword(email)
-          }}
-        >
-          Save New Password
-        </button>
-      </div>
+    <div className="reset-password-page">
+      <h1 className="headline4">Reset Password</h1>
+      <div className="content-section">{resetPasswordForm()}</div>
     </div>
   )
 }

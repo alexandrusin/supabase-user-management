@@ -7,9 +7,11 @@ export const DEFAULT_AVATARS_BUCKET = 'avatars'
 export type Profile = {
   id: string
   avatar_url: string
-  username: string
   first_name: string
   last_name: string
-  website: string
+  phone_number: string
   updated_at: string
+  user_type: string
+  company: string
+  birthday: string
 }

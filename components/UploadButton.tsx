@@ -7,14 +7,15 @@ export type UploadButtonProps = {
 
 export default function UploadButton(props: UploadButtonProps) {
   return (
-    <div>
-      <label className="button primary block" htmlFor="single">
+    <>
+      <label className="button primary-button" htmlFor="single">
         {props.loading ? 'Uploading ...' : 'Upload'}
       </label>
       <input
         style={{
           visibility: 'hidden',
           position: 'absolute',
+          width: '200px',
         }}
         type="file"
         id="single"
@@ -22,6 +23,6 @@ export default function UploadButton(props: UploadButtonProps) {
         onChange={props.onUpload}
         disabled={props.loading}
       />
-    </div>
+    </>
   )
 }

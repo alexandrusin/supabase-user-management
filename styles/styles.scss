@@ -1,0 +1,45 @@
+// Abstracts
+@use "./abstracts/colors";
+@use "./abstracts/variables";
+
+// Base
+@use "base/normalize";
+@use "base/reset";
+@use "base/layout";
+@use "base/typography";
+
+// Elements
+@use "./elements/forms";
+@use "./elements/buttons";
+
+// Components
+@use "./components/header";
+@use "./components/logo";
+@use "./components/navbar";
+@use "./components/footer";
+
+@use "./components/slider";
+@use "./components/categories";
+@use "./components/cta";
+@use "./components/login_drawer";
+
+// Pages
+@use "./pages/home";
+@use "./pages/register";
+
+// html,
+// body {
+// 	padding: 0;
+// 	margin: 0;
+// 	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+// 		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+// }
+
+// a {
+// 	color: inherit;
+// 	text-decoration: none;
+// }
+
+// * {
+// 	box-sizing: border-box;
+// }

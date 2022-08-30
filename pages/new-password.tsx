@@ -1,30 +1,39 @@
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Nav } from '../components/Nav'
 import { supabase } from '../lib/supabaseClient'
 
 import { BiShow } from 'react-icons/bi'
 import { BiHide } from 'react-icons/bi'
 
-export default function SignIn() {
+export default function NewPassword() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleLogin = async (email: string, password: string) => {
+  // const [hash, setHash] = useState('')
+  // const accessToken = router.query.access_token as string
+
+  // https://dev.to/nextdev/how-to-use-password-reset-api-in-supabase-auth-with-the-help-of-nextjs-3ifm
+
+  useEffect(() => {
+    // setHash(window.location.hash);
+  }, [])
+
+  const handleNewPassword = async (password: string) => {
     try {
       setLoading(true)
-      // const { error, user } = await supabase.auth.signIn({ email })
-      const { error, data } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+
+      const { error } = await supabase.auth.updateUser({
+        password: password,
       })
+
       if (error) throw error
+      alert('Changing Password!')
       if (!error) {
-        router.push('/')
+        router.push('/login')
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -36,27 +45,17 @@ export default function SignIn() {
     }
   }
 
-  const loginForm = () => {
+  const newPasswordForm = () => {
     return (
       <form
-        className="login-form"
+        className="password-form"
         onSubmit={(e) => {
           e.preventDefault()
-          handleLogin(email, password)
+          handleNewPassword(password)
         }}
       >
         <div className="input-wrapper">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-wrapper">
-          <label htmlFor="password">Parola</label>
+          <label htmlFor="password">Parola Noua</label>
           <div className="input-with-button">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -85,21 +84,17 @@ export default function SignIn() {
             className="button primary-button fluid-width action"
             disabled={loading}
           >
-            Login
+            Save New Password
           </button>
         </div>
-
-        <Link href="/reset-password">
-          <a>Ai uitat parola?</a>
-        </Link>
       </form>
     )
   }
 
   return (
-    <div className="login-page">
-      <h1 className="headline4">Login</h1>
-      <div className="content-section">{loginForm()}</div>
+    <div className="new-password-page">
+      <h1 className="headline4">Set New Password</h1>
+      <div className="content-section">{newPasswordForm()}</div>
     </div>
   )
 }

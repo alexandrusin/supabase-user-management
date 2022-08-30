@@ -1,0 +1,96 @@
+@use 'styles/abstracts/breakpoints' as *;
+
+.account-page,
+.reset-password-page,
+.new-password-page,
+.login-page,
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap);
+  .content-section {
+    flex-direction: column;
+    flex: 1;
+    gap: var(--gap);
+  }
+}
+
+.account-form,
+.password-form,
+.login-form,
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  width: 450px;
+  max-width: 100%;
+
+  .input-wrapper {
+    display: flex;
+    flex: 1;
+  }
+
+  .account-type {
+    .radio-wrapper {
+      flex: 1;
+    }
+  }
+}
+
+hr {
+  border-top: none;
+  border-bottom: 1px solid var(--color-neutral-2);
+  width: 100%;
+}
+
+.email-notification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 450px; // same as reg form
+  gap: var(--space-xs);
+  margin-top: var(--gap);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+// user profile
+.avatar_placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  border-radius: var(--radius-xs);
+  background: var(--color-neutral-2);
+  color: var(--color-neutral-1);
+  width: 150px;
+  height: 150px;
+  margin-bottom: var(--space-sm);
+
+  svg {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+// public profiles
+.profile-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: var(--gap);
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  .avatar {
+    width: 100%;
+    border-radius: var(--radius-xs);
+  }
+}
