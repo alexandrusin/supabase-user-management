@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabaseClient'
 import UploadButton from '../components/UploadButton'
 import Avatar from './Avatar'
 import { AuthSession } from '@supabase/supabase-js'
-import { DEFAULT_AVATARS_BUCKET, Profile } from '../lib/constants'
+import { DEFAULT_AVATARS_BUCKET, Profile, ClientProfile, ModelProfile } from '../lib/constants'
 
 import { FaUserCircle } from 'react-icons/fa'
 
@@ -84,8 +84,23 @@ export default function Account({ session }: { session: AuthSession }) {
     setLastName(profile.last_name)
     setPhoneNumber(profile.phone_number)
     setUserType(profile.user_type)
-    setCompany(profile.company)
+
+    // models
     setBirthday(profile.birthday)
+
+    // clients
+    setCompany(profile.company)
+  }
+
+  function setModelProfile(profile: ModelProfile) {
+    setProfile(profile)
+    setBirthday(profile.birthday)
+  }
+
+  function setClientProfile(profile: ClientProfile) {
+    setProfile(profile)
+    setCompany(profile.company)
+    setCompany(profile.website)
   }
 
   async function getProfile() {
@@ -116,7 +131,35 @@ export default function Account({ session }: { session: AuthSession }) {
     }
   }
 
-  async function updateProfile() {
+  async function updateModelProfile() {
+    try {
+      setLoading(true)
+      const { user } = session
+
+      const updates = {
+        id: user!.id,
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phoneNumber,
+        birthday: birthday,
+        updated_at: new Date(),
+      }
+
+      let { error } = await supabase.from('model_profiles').upsert(updates, {})
+
+      if (error) {
+        throw error
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function updateClientProfile() {
     try {
       setLoading(true)
       const { user } = session
@@ -127,11 +170,10 @@ export default function Account({ session }: { session: AuthSession }) {
         last_name: lastName,
         phone_number: phoneNumber,
         company: company,
-        birthday: birthday,
         updated_at: new Date(),
       }
 
-      let { error } = await supabase.from('profiles').upsert(updates, {})
+      let { error } = await supabase.from('client_profiles').upsert(updates, {})
 
       if (error) {
         throw error
@@ -166,7 +208,7 @@ export default function Account({ session }: { session: AuthSession }) {
         className="account-form"
         onSubmit={(e) => {
           e.preventDefault()
-          updateProfile()
+          updateModelProfile()
         }}
       >
         <div className="input-wrapper">

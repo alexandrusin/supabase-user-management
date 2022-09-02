@@ -1,31 +1,32 @@
 // Abstracts
-@use "./abstracts/colors";
-@use "./abstracts/variables";
+@use './abstracts/colors';
+@use './abstracts/variables';
 
 // Base
-@use "base/normalize";
-@use "base/reset";
-@use "base/layout";
-@use "base/typography";
+@use 'base/normalize';
+@use 'base/reset';
+@use 'base/layout';
+@use 'base/typography';
 
 // Elements
-@use "./elements/forms";
-@use "./elements/buttons";
+@use './elements/forms';
+@use './elements/buttons';
 
 // Components
-@use "./components/header";
-@use "./components/logo";
-@use "./components/navbar";
-@use "./components/footer";
+@use './components/header';
+@use './components/logo';
+@use './components/navbar';
+@use './components/footer';
 
-@use "./components/slider";
-@use "./components/categories";
-@use "./components/cta";
-@use "./components/login_drawer";
+@use './components/slider';
+@use './components/categories';
+@use './components/cta';
+@use './components/login_drawer';
+@use './components/modal';
 
 // Pages
-@use "./pages/home";
-@use "./pages/register";
+@use './pages/home';
+@use './pages/register';
 
 // html,
 // body {

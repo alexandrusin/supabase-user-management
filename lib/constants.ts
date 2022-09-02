@@ -15,3 +15,14 @@ export type Profile = {
   company: string
   birthday: string
 }
+
+
+export type ModelProfile = Profile & {
+  birthday: string
+}
+
+
+export type ClientProfile = Profile & {
+  company: string
+  website: string
+}
