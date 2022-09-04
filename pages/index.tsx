@@ -42,7 +42,28 @@ export default function Home() {
       const { data, error } = await supabase
         .from('profiles')
         .select(
-          'first_name, last_name, phone_number, user_type, avatar_url, updated_at, id, company, birthday'
+          `
+          id,
+          user_type,
+          updated_at,
+          avatar_url,
+          first_name,
+          last_name,
+          phone_number,
+          address,
+          city,
+          country,
+          company,
+          website,
+          birthday,
+          gender,
+          weight,
+          height,
+          measurements,
+          eye_color,
+          hair_color,
+          skin_color
+          `
         )
         .order('updated_at', { ascending: false })
 

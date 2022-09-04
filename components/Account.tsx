@@ -147,6 +147,7 @@ export default function Account({ session }: { session: AuthSession }) {
           birthday,
           gender,
           weight,
+          height,
           measurements,
           eye_color,
           hair_color,
@@ -259,6 +260,7 @@ export default function Account({ session }: { session: AuthSession }) {
           <div className="input-wrapper">
             <label htmlFor="gender">Gen</label>
             <select
+              value={gender}
               name="gender"
               id="gender"
               required
