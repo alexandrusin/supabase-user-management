@@ -1,4 +1,9 @@
 @use 'styles/abstracts/breakpoints' as *;
+@use 'styles/base/typography' as typography;
+
+:root {
+  --input-height: 45px;
+}
 
 .input-wrapper {
   display: flex;
@@ -7,27 +12,87 @@
   label {
     font-family: 'Oswald';
     text-transform: uppercase;
-    padding: 0 0 var(--space-2xs) var(--space-2xs);
+    padding: 0 0 var(--space-2xs) var(--space-sm);
     color: var(--color-neutral-8);
     font-size: var(--text-sm);
+    text-align: left;
   }
 
   input {
+    inline-size: 100%;
+    height: var(--input-height);
     background: var(--color-white);
     border: 1px solid var(--color-neutral-2);
-    padding: var(--space-sm) var(--space-md);
+    padding: 0 var(--space-sm);
     border-radius: var(--radius-xs);
+  }
+
+  select {
+    inline-size: 100%;
+    line-height: 1;
+    height: var(--input-height);
+    background: var(--color-white);
+    border: 1px solid var(--color-neutral-2);
+    padding: 0 var(--space-sm);
+    border-radius: var(--radius-xs);
+  }
+
+  .helper-text {
+    @include typography.caption;
+    color: var(--color-neutral-6);
+    padding: 0 0 0 var(--space-sm);
   }
 }
 
-.input-with-button {
+// an input with an attached prefix or suffix
+.input-group {
   display: flex;
+  flex-direction: row;
   input {
-    width: 100%;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    flex-grow: 1;
+    position: relative;
+
+    min-width: 0;
+    appearance: none;
+    -webkit-appearance: none;
+
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+  .input-prefix,
+  .input-suffix {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-neutral-2);
+    padding: 0 var(--space-sm);
+  }
+  .input-prefix {
+    border-right: 0;
+    border-top-left-radius: var(--radius-xs);
+    border-bottom-left-radius: var(--radius-xs);
+  }
+  .input-suffix {
+    border-left: 0;
+    border-top-right-radius: var(--radius-xs);
+    border-bottom-right-radius: var(--radius-xs);
   }
 }
+
+// .input-with-button {
+//   display: flex;
+//   input {
+//     width: 100%;
+//     border-top-right-radius: 0;
+//     border-bottom-right-radius: 0;
+//   }
+// }
 
 .toggle-show-password {
   display: flex;
@@ -36,10 +101,6 @@
   padding: 0 var(--gap);
 
   background: var(--color-white);
-  border: 1px solid var(--color-neutral-2);
-  border-left: 0;
-  border-top-right-radius: var(--radius-xs);
-  border-bottom-right-radius: var(--radius-xs);
   cursor: pointer;
 
   &:hover {
@@ -87,9 +148,6 @@
     display: flex;
     flex-direction: column;
     color: var(--color-neutral-7);
-    .caption {
-      color: var(--color-neutral-6);
-    }
   }
 
   input:checked + label {
@@ -98,9 +156,8 @@
   }
 }
 
-.input-group {
+.form-row {
   display: flex;
-  flex-direction: row;
   gap: var(--gap);
   @include mobile {
     flex-direction: column;

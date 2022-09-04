@@ -37,7 +37,7 @@ export default function ProfileCard({ profile }: { profile: Profile }) {
             {profile.company ? profile.company : ''}
             {profile.birthday ? calculateAge(profile.birthday) + ' ani' : ''}
           </p>
-          <p className="caption text-grey">
+          <p className="helper-text">
             Last updated{' '}
             {lastUpdated
               ? `${lastUpdated.toLocaleDateString()} ${lastUpdated.toLocaleTimeString()}`
@@ -61,7 +61,7 @@ export default function ProfileCard({ profile }: { profile: Profile }) {
                   ? calculateAge(profile.birthday) + ' ani'
                   : ''}
               </p>
-              <p className="caption text-grey">
+              <p className="helper-text">
                 Last updated{' '}
                 {lastUpdated
                   ? `${lastUpdated.toLocaleDateString()} ${lastUpdated.toLocaleTimeString()}`

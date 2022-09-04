@@ -6,21 +6,34 @@ export const DEFAULT_AVATARS_BUCKET = 'avatars'
 
 export type Profile = {
   id: string
+  user_type: string
+  updated_at: string
   avatar_url: string
+
   first_name: string
   last_name: string
-  phone_number: string
-  updated_at: string
-  user_type: string
-  company: string
-  birthday: string
-}
 
+  phone_number: string
+  address: string
+  city: string
+  country: string
+
+  birthday: string
+  gender: string
+  height: number
+  weight: number
+  measurements: string
+  eye_color: string
+  hair_color: string
+  skin_color: string
+
+  company: string
+  website: string
+}
 
 export type ModelProfile = Profile & {
   birthday: string
 }
-
 
 export type ClientProfile = Profile & {
   company: string

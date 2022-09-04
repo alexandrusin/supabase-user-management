@@ -109,7 +109,7 @@ export default function SignUp() {
         </div>
         <div className="input-wrapper">
           <label htmlFor="password">Parola</label>
-          <div className="input-with-button">
+          <div className="input-group">
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
@@ -119,7 +119,7 @@ export default function SignUp() {
               required
             />
             <div
-              className="toggle-show-password"
+              className="input-suffix toggle-show-password"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
@@ -129,7 +129,7 @@ export default function SignUp() {
               )}
             </div>
           </div>
-          <span className="caption text-grey">Minim 8 caractere</span>
+          <span className="helper-text">Minim 8 caractere</span>
         </div>
         <div className="input-wrapper">
           <label htmlFor="phone">Telefon</label>
@@ -143,7 +143,7 @@ export default function SignUp() {
         </div>
 
         <hr />
-        <div className="input-group account-type">
+        <div className="form-row account-type">
           <div className="radio-wrapper">
             <input
               id="model"
@@ -194,7 +194,7 @@ export default function SignUp() {
           Am trimis un email la adresa <i>{email}</i> cu un link pentru a vă
           activa contul.
         </span>
-        <span className="caption text-grey">
+        <span className="helper-text">
           Nu ai primit email-ul? Verificați folderul de spam!
         </span>
       </div>

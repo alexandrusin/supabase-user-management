@@ -219,6 +219,10 @@ h6 {
   }
 }
 
+@mixin caption {
+  @extend .caption;
+}
+
 .text-grey {
   color: var(--color-neutral-5);
 }

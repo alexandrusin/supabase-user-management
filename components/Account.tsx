@@ -3,20 +3,40 @@ import { supabase } from '../lib/supabaseClient'
 import UploadButton from '../components/UploadButton'
 import Avatar from './Avatar'
 import { AuthSession } from '@supabase/supabase-js'
-import { DEFAULT_AVATARS_BUCKET, Profile, ClientProfile, ModelProfile } from '../lib/constants'
+import {
+  DEFAULT_AVATARS_BUCKET,
+  Profile,
+  ClientProfile,
+  ModelProfile,
+} from '../lib/constants'
 
 import { FaUserCircle } from 'react-icons/fa'
 
 export default function Account({ session }: { session: AuthSession }) {
   const [loading, setLoading] = useState<boolean>(true)
   const [uploading, setUploading] = useState<boolean>(false)
+
   const [avatar, setAvatar] = useState<string | null>(null)
+  const [userType, setUserType] = useState('')
+
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [birthday, setBirthday] = useState<string | undefined>(undefined)
-  const [company, setCompany] = useState<string | undefined>(undefined)
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [userType, setUserType] = useState('')
+  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [country, setCountry] = useState('')
+
+  const [birthday, setBirthday] = useState<string | undefined>(undefined)
+  const [gender, setGender] = useState('')
+  const [weight, setWeight] = useState('')
+  const [height, setHeight] = useState('')
+  const [measurements, setMeasurements] = useState('')
+  const [eyeColor, setEyeColor] = useState('')
+  const [hairColor, setHairColor] = useState('')
+  const [skinColor, setSkinColor] = useState('')
+
+  const [company, setCompany] = useState<string | undefined>(undefined)
+  const [website, setWebsite] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     console.log('HELLO SESH', session)
@@ -111,7 +131,27 @@ export default function Account({ session }: { session: AuthSession }) {
       let { data, error } = await supabase
         .from('profiles')
         .select(
-          `first_name, last_name, phone_number, user_type, avatar_url, updated_at, id, company, birthday`
+          `
+          id,
+          user_type,
+          updated_at,
+          avatar_url,
+          first_name,
+          last_name,
+          phone_number,
+          address,
+          city,
+          country,
+          company,
+          website,
+          birthday,
+          gender,
+          weight,
+          measurements,
+          eye_color,
+          hair_color,
+          skin_color
+          `
         )
         .eq('id', user!.id)
         .single()
@@ -202,6 +242,152 @@ export default function Account({ session }: { session: AuthSession }) {
     )
   }
 
+  const modelDetailsForm = () => {
+    return (
+      <>
+        <div className="form-row">
+          <div className="input-wrapper">
+            <label htmlFor="birthday">Zi de naştere</label>
+            <input
+              type="date"
+              id="birthday"
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-wrapper">
+            <label htmlFor="gender">Gen</label>
+            <select
+              name="gender"
+              id="gender"
+              required
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="Male">Masculin</option>
+              <option value="Female">Feminin</option>
+              <option value="Other">Alt</option>
+            </select>
+          </div>
+        </div>
+        <hr />
+        <div className="form-row">
+          <div className="input-wrapper">
+            <label htmlFor="weight">Greutate</label>
+            <div className="input-group">
+              <input
+                type="number"
+                id="weight"
+                value={weight}
+                size={3}
+                onChange={(e) => setWeight(e.target.value)}
+                required
+              />
+              <div className="input-suffix">kg</div>
+            </div>
+          </div>
+          <div className="input-wrapper">
+            <label htmlFor="height">Intaltime</label>
+            <div className="input-group">
+              <input
+                type="number"
+                id="height"
+                value={height}
+                size={3}
+                onChange={(e) => setHeight(e.target.value)}
+                required
+              />
+              <div className="input-suffix">cm</div>
+            </div>
+          </div>
+        </div>
+        <div className="input-wrapper">
+          <label htmlFor="measurements">Masuratori</label>
+          <div className="input-group">
+            <input
+              type="text"
+              id="measurements"
+              value={measurements}
+              onChange={(e) => setMeasurements(e.target.value)}
+              placeholder="Piept / Talie / Solduri"
+              size={10}
+              required
+            />
+            <div className="input-suffix">cm</div>
+          </div>
+          <span className="helper-text">Doar la persoanele peste 16 ani</span>
+        </div>
+        <hr />
+        <div className="form-row">
+          <div className="input-wrapper">
+            <label htmlFor="eye_color">Culoare Ochi</label>
+            <select
+              name="eye_color"
+              id="eye_color"
+              required
+              onChange={(e) => setEyeColor(e.target.value)}
+            >
+              <option value="green">Verde</option>
+              <option value="blue">Albastru</option>
+            </select>
+          </div>
+          <div className="input-wrapper">
+            <label htmlFor="hair_color">Culoare Par</label>
+            <select
+              name="hair_color"
+              id="hair_color"
+              required
+              onChange={(e) => setHairColor(e.target.value)}
+            >
+              <option value="white">Alb</option>
+              <option value="blond">Blond</option>
+              <option value="black">Negru</option>
+            </select>
+          </div>
+        </div>
+        <div className="input-wrapper">
+          <label htmlFor="skin_color">Culoare Piele</label>
+          <select
+            name="skin_color"
+            id="skin_color"
+            required
+            onChange={(e) => setSkinColor(e.target.value)}
+          >
+            <option value="light">Deschisa</option>
+            <option value="dark">Inchisa</option>
+          </select>
+        </div>
+      </>
+    )
+  }
+
+  const clientDetailsForm = () => {
+    return (
+      <>
+        <div className="input-wrapper">
+          <label htmlFor="company">Company</label>
+          <input
+            type="text"
+            id="company"
+            value={company || ''}
+            onChange={(e) => setCompany(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-wrapper">
+          <label htmlFor="website">Website</label>
+          <input
+            type="text"
+            id="website"
+            value={website || ''}
+            onChange={(e) => setWebsite(e.target.value)}
+            required
+          />
+        </div>
+      </>
+    )
+  }
+
   const userDetailsForm = () => {
     return (
       <form
@@ -214,26 +400,31 @@ export default function Account({ session }: { session: AuthSession }) {
         <div className="input-wrapper">
           <label htmlFor="email">Email</label>
           <input type="email" id="email" value={session.user.email} disabled />
+          <span className="helper-text">
+            Email cannot be edited. You can submit a request <u>here</u>.
+          </span>
         </div>
-        <div className="input-wrapper">
-          <label htmlFor="firstName">Prenume</label>
-          <input
-            type="text"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-wrapper">
-          <label htmlFor="lastName">Nume</label>
-          <input
-            type="text"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
+        <div className="form-row">
+          <div className="input-wrapper">
+            <label htmlFor="firstName">Prenume</label>
+            <input
+              type="text"
+              id="firstName"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-wrapper">
+            <label htmlFor="lastName">Nume</label>
+            <input
+              type="text"
+              id="lastName"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </div>
         </div>
         <div className="input-wrapper">
           <label htmlFor="phone">Telefon</label>
@@ -246,32 +437,42 @@ export default function Account({ session }: { session: AuthSession }) {
           />
         </div>
         <hr />
-
-        {userType === 'model' && (
+        <div className="input-wrapper">
+          <label htmlFor="address">Adresa</label>
+          <input
+            type="text"
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-row">
           <div className="input-wrapper">
-            <label htmlFor="birthday">Birthday</label>
-            <input
-              type="date"
-              id="birthday"
-              value={birthday}
-              onChange={(e) => setBirthday(e.target.value)}
-              required
-            />
-          </div>
-        )}
-
-        {userType === 'client' && (
-          <div className="input-wrapper">
-            <label htmlFor="company">Company</label>
+            <label htmlFor="city">Oras</label>
             <input
               type="text"
-              id="company"
-              value={company || ''}
-              onChange={(e) => setCompany(e.target.value)}
+              id="city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
               required
             />
           </div>
-        )}
+          <div className="input-wrapper">
+            <label htmlFor="country">Tara</label>
+            <input
+              type="text"
+              id="country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              required
+            />
+          </div>
+        </div>
+        <hr />
+
+        {userType === 'model' && modelDetailsForm()}
+        {userType === 'client' && clientDetailsForm()}
 
         <hr />
         <div className="actions">

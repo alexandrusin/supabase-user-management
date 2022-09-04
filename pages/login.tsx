@@ -57,7 +57,7 @@ export default function SignIn() {
         </div>
         <div className="input-wrapper">
           <label htmlFor="password">Parola</label>
-          <div className="input-with-button">
+          <div className="input-group">
             <input
               type={showPassword ? 'text' : 'password'}
               id="password"
@@ -67,7 +67,7 @@ export default function SignIn() {
               required
             />
             <div
-              className="toggle-show-password"
+              className="input-suffix toggle-show-password"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
@@ -77,7 +77,7 @@ export default function SignIn() {
               )}
             </div>
           </div>
-          <span className="caption text-grey">Minim 8 caractere</span>
+          <span className="helper-text">Minim 8 caractere</span>
         </div>
         <div className="actions">
           <button

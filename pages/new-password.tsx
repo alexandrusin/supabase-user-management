@@ -76,7 +76,7 @@ export default function NewPassword() {
               )}
             </div>
           </div>
-          <span className="caption text-grey">Minim 8 caractere</span>
+          <span className="helper-text">Minim 8 caractere</span>
         </div>
         <div className="actions">
           <button
