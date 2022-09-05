@@ -9,33 +9,20 @@ export type Profile = {
   user_type: string
   updated_at: string
   avatar_url: string
-
   first_name: string
   last_name: string
-
   phone_number: string
   address: string
   city: string
   country: string
-
   birthday: string
   gender: string
-  height: number
-  weight: number
+  weight: string
+  height: string
   measurements: string
   eye_color: string
   hair_color: string
   skin_color: string
-
-  company: string
-  website: string
-}
-
-export type ModelProfile = Profile & {
-  birthday: string
-}
-
-export type ClientProfile = Profile & {
   company: string
   website: string
 }

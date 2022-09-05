@@ -3,12 +3,7 @@ import { supabase } from '../lib/supabaseClient'
 import UploadButton from '../components/UploadButton'
 import Avatar from './Avatar'
 import { AuthSession } from '@supabase/supabase-js'
-import {
-  DEFAULT_AVATARS_BUCKET,
-  Profile,
-  ClientProfile,
-  ModelProfile,
-} from '../lib/constants'
+import { DEFAULT_AVATARS_BUCKET, Profile } from '../lib/constants'
 
 import { FaUserCircle } from 'react-icons/fa'
 
@@ -35,11 +30,12 @@ export default function Account({ session }: { session: AuthSession }) {
   const [hairColor, setHairColor] = useState('')
   const [skinColor, setSkinColor] = useState('')
 
-  const [company, setCompany] = useState<string | undefined>(undefined)
-  const [website, setWebsite] = useState<string | undefined>(undefined)
+  const [company, setCompany] = useState('')
+  const [website, setWebsite] = useState('')
 
   useEffect(() => {
     console.log('HELLO SESH', session)
+    console.log('HELLO height', company)
 
     getProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -99,28 +95,28 @@ export default function Account({ session }: { session: AuthSession }) {
   }
 
   function setProfile(profile: Profile) {
+    setUserType(profile.user_type)
     setAvatar(profile.avatar_url)
     setFirstName(profile.first_name)
     setLastName(profile.last_name)
     setPhoneNumber(profile.phone_number)
-    setUserType(profile.user_type)
 
     // models
+    setAddress(profile.address)
+    setCity(profile.city)
+    setCountry(profile.country)
     setBirthday(profile.birthday)
+    setGender(profile.gender)
+    setWeight(profile.weight)
+    setHeight(profile.height)
+    setMeasurements(profile.measurements)
+    setEyeColor(profile.eye_color)
+    setHairColor(profile.hair_color)
+    setSkinColor(profile.skin_color)
 
     // clients
     setCompany(profile.company)
-  }
-
-  function setModelProfile(profile: ModelProfile) {
-    setProfile(profile)
-    setBirthday(profile.birthday)
-  }
-
-  function setClientProfile(profile: ClientProfile) {
-    setProfile(profile)
-    setCompany(profile.company)
-    setCompany(profile.website)
+    setWebsite(profile.website)
   }
 
   async function getProfile() {
@@ -131,28 +127,7 @@ export default function Account({ session }: { session: AuthSession }) {
       let { data, error } = await supabase
         .from('profiles')
         .select(
-          `
-          id,
-          user_type,
-          updated_at,
-          avatar_url,
-          first_name,
-          last_name,
-          phone_number,
-          address,
-          city,
-          country,
-          company,
-          website,
-          birthday,
-          gender,
-          weight,
-          height,
-          measurements,
-          eye_color,
-          hair_color,
-          skin_color
-          `
+          `id, user_type, updated_at, avatar_url, first_name, last_name, phone_number, address, city, country, birthday, gender, weight, height, measurements, eye_color, hair_color, skin_color, company, website`
         )
         .eq('id', user!.id)
         .single()
@@ -172,49 +147,33 @@ export default function Account({ session }: { session: AuthSession }) {
     }
   }
 
-  async function updateModelProfile() {
+  async function updateProfile() {
     try {
       setLoading(true)
       const { user } = session
 
       const updates = {
         id: user!.id,
+        updated_at: new Date(),
         first_name: firstName,
         last_name: lastName,
         phone_number: phoneNumber,
+        address: address,
+        city: city,
+        country: country,
         birthday: birthday,
-        updated_at: new Date(),
-      }
-
-      let { error } = await supabase.from('model_profiles').upsert(updates, {})
-
-      if (error) {
-        throw error
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message)
-      }
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  async function updateClientProfile() {
-    try {
-      setLoading(true)
-      const { user } = session
-
-      const updates = {
-        id: user!.id,
-        first_name: firstName,
-        last_name: lastName,
-        phone_number: phoneNumber,
+        gender: gender,
+        weight: weight,
+        height: height,
+        measurements: measurements,
+        eye_color: eyeColor,
+        hair_color: hairColor,
+        skin_color: skinColor,
         company: company,
-        updated_at: new Date(),
+        website: website,
       }
 
-      let { error } = await supabase.from('client_profiles').upsert(updates, {})
+      let { error } = await supabase.from('profiles').upsert(updates, {})
 
       if (error) {
         throw error
@@ -266,6 +225,7 @@ export default function Account({ session }: { session: AuthSession }) {
               required
               onChange={(e) => setGender(e.target.value)}
             >
+              <option value=""></option>
               <option value="Male">Masculin</option>
               <option value="Female">Feminin</option>
               <option value="Other">Alt</option>
@@ -324,11 +284,13 @@ export default function Account({ session }: { session: AuthSession }) {
           <div className="input-wrapper">
             <label htmlFor="eye_color">Culoare Ochi</label>
             <select
+              value={eyeColor}
               name="eye_color"
               id="eye_color"
               required
               onChange={(e) => setEyeColor(e.target.value)}
             >
+              <option value=""></option>
               <option value="green">Verde</option>
               <option value="blue">Albastru</option>
             </select>
@@ -336,11 +298,13 @@ export default function Account({ session }: { session: AuthSession }) {
           <div className="input-wrapper">
             <label htmlFor="hair_color">Culoare Par</label>
             <select
+              value={hairColor}
               name="hair_color"
               id="hair_color"
               required
               onChange={(e) => setHairColor(e.target.value)}
             >
+              <option value=""></option>
               <option value="white">Alb</option>
               <option value="blond">Blond</option>
               <option value="black">Negru</option>
@@ -350,11 +314,13 @@ export default function Account({ session }: { session: AuthSession }) {
         <div className="input-wrapper">
           <label htmlFor="skin_color">Culoare Piele</label>
           <select
+            value={skinColor}
             name="skin_color"
             id="skin_color"
             required
             onChange={(e) => setSkinColor(e.target.value)}
           >
+            <option value=""></option>
             <option value="light">Deschisa</option>
             <option value="dark">Inchisa</option>
           </select>
@@ -396,7 +362,7 @@ export default function Account({ session }: { session: AuthSession }) {
         className="account-form"
         onSubmit={(e) => {
           e.preventDefault()
-          updateModelProfile()
+          updateProfile()
         }}
       >
         <div className="input-wrapper">
