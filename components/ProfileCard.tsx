@@ -22,45 +22,73 @@ export default function ProfileCard({ profile }: { profile: Profile }) {
   }
 
   return (
-    <>
-      <div
-        className="profile-card card"
-        onClick={() => setShowModal(!showModal)}
-      >
-        <Avatar url={profile.avatar_url} size={250} />
-        <div className="user-info">
-          <p className="user-name">{profile.first_name}</p>
+    <div className="profile-card card" onClick={() => setShowModal(!showModal)}>
+      <Avatar url={profile.avatar_url} size={250} />
+      <div className="user-info">
+        <p className="user-name">{profile.first_name}</p>
 
-          <p className="user-age">
-            {profile.user_type} <br />
-            <br />
-            {profile.company ? profile.company : ''}
-            {profile.birthday ? calculateAge(profile.birthday) + ' ani' : ''}
-          </p>
-          <p className="helper-text">
-            Last updated{' '}
-            {lastUpdated
-              ? `${lastUpdated.toLocaleDateString()} ${lastUpdated.toLocaleTimeString()}`
-              : 'Never'}
-          </p>
-        </div>
-        <div />
+        <p className="user-age">
+          {profile.user_type} <br />
+          <br />
+          {profile.company ? profile.company : ''}
+          {profile.birthday ? calculateAge(profile.birthday) + ' ani' : ''}
+        </p>
+        <p className="helper-text">
+          Last updated{' '}
+          {lastUpdated
+            ? `${lastUpdated.toLocaleDateString()} ${lastUpdated.toLocaleTimeString()}`
+            : 'Never'}
+        </p>
       </div>
+
       {showModal && (
         <Modal open={showModal} onClose={() => setShowModal(false)}>
           <div className="profile-card">
             <Avatar url={profile.avatar_url} size={250} />
-            <div className="user-info">
-              <p className="user-name">{profile.first_name}</p>
-
-              <p className="user-age">
-                {profile.user_type} <br />
-                <br />
-                {profile.company ? profile.company : ''}
-                {profile.birthday
-                  ? calculateAge(profile.birthday) + ' ani'
-                  : ''}
+            <div className="user-data">
+              <p className="user-name">
+                {profile.first_name} ({profile.user_type})
               </p>
+
+              <div className="row">
+                <span className="label">Varsta</span>
+                <span className="data">
+                  {profile.birthday
+                    ? calculateAge(profile.birthday) + ' ani'
+                    : ''}
+                </span>
+              </div>
+
+              <div className="row">
+                <span className="label">Gen</span>
+                <span className="data">{profile.gender}</span>
+              </div>
+
+              <div className="row">
+                <span className="label">Greutate</span>
+                <span className="data">{profile.weight}</span>
+              </div>
+              <div className="row">
+                <span className="label">Inaltime</span>
+                <span className="data">{profile.height}</span>
+              </div>
+              <div className="row">
+                <span className="label">Masuratori</span>
+                <span className="data">{profile.measurements}</span>
+              </div>
+              <div className="row">
+                <span className="label">Culoare ochi</span>
+                <span className="data">{profile.eye_color}</span>
+              </div>
+              <div className="row">
+                <span className="label">Culoare par</span>
+                <span className="data">{profile.hair_color}</span>
+              </div>
+              <div className="row">
+                <span className="label">Culoare piele</span>
+                <span className="data">{profile.skin_color}</span>
+              </div>
+
               <p className="helper-text">
                 Last updated{' '}
                 {lastUpdated
@@ -72,6 +100,6 @@ export default function ProfileCard({ profile }: { profile: Profile }) {
           </div>
         </Modal>
       )}
-    </>
+    </div>
   )
 }
