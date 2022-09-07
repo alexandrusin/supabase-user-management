@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { DEFAULT_AVATARS_BUCKET } from '../lib/constants'
+import Image from 'next/image'
 
-export default function Avatar({ url, size }: { url: string | null; size: number }) {
+export default function Avatar({
+  url,
+  size,
+}: {
+  url: string | null
+  size: number
+}) {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
   useEffect(() => {
@@ -11,7 +18,9 @@ export default function Avatar({ url, size }: { url: string | null; size: number
 
   async function downloadImage(path: string) {
     try {
-      const { data, error } = await supabase.storage.from(DEFAULT_AVATARS_BUCKET).download(path)
+      const { data, error } = await supabase.storage
+        .from(DEFAULT_AVATARS_BUCKET)
+        .download(path)
       if (error) {
         throw error
       }
@@ -24,9 +33,21 @@ export default function Avatar({ url, size }: { url: string | null; size: number
     }
   }
 
-  return avatarUrl ? (
-    <img src={avatarUrl} className="avatar image" style={{ height: size, width: size }} />
-  ) : (
-    <div className="avatar no-image" style={{ height: size, width: size }} />
+  return (
+    <div className="avatar">
+      {avatarUrl ? (
+        <Image
+          src={avatarUrl}
+          className="avatar image"
+          layout="fill"
+          objectFit="cover"
+        />
+      ) : (
+        <div
+          className="avatar no-image"
+          style={{ height: size, width: size }}
+        />
+      )}
+    </div>
   )
 }

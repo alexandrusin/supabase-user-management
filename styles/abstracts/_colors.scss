@@ -1,52 +1,63 @@
 :root {
-	--color-white: #ffffff;
-	--color-black: #262626;
+  --color-white: #ffffff;
+  --color-black: #262626;
 
-	--color-primary-light: var(--color-cream-1);
-	--color-primary: var(--color-cream-3);
-	--color-primary-dark: var(--color-cream-5);
+  --color-primary-light: var(--color-cream-1);
+  --color-primary: var(--color-cream-3);
+  --color-primary-dark: var(--color-cream-5);
 
-	--color-accent: #ca685f;
+  --color-accent: #ca685f;
 
-	--color-cream-1: #f2ebec;
-	--color-cream-2: #ffe1de;
-	--color-cream-3: #bf9793;
-	--color-cream-4: #ac7873;
-	--color-cream-5: #3e2827;
+  --color-cream-1: #f2ebec;
+  --color-cream-2: #ffe1de;
+  --color-cream-3: #bf9793;
+  --color-cream-4: #ac7873;
+  --color-cream-5: #3e2827;
 
-	// --color-green-1: #93bfa7;
-	// --color-green-2: #417357;
+  // --color-green-1: #93bfa7;
+  // --color-green-2: #417357;
 
-	--color-green-1: #a2bf9d;
-	--color-green-2: #667364;
+  --color-green-1: #a2bf9d;
+  --color-green-2: #667364;
 
-	--color-blue-1: #8abfbf;
-	--color-blue-2: #4d7273;
+  --color-blue-1: #8abfbf;
+  --color-blue-2: #4d7273;
 
-	--color-neutral-1: whitesmoke;
-	--color-neutral-2: gainsboro;
-	--color-neutral-3: lightgrey;
-	--color-neutral-4: silver;
-	--color-neutral-5: darkgrey;
-	--color-neutral-6: grey;
-	--color-neutral-7: dimgrey;
+  --color-neutral-1: whitesmoke;
+  --color-neutral-2: gainsboro;
+  --color-neutral-3: lightgrey;
+  --color-neutral-4: silver;
+  --color-neutral-5: darkgrey;
+  --color-neutral-6: grey;
+  --color-neutral-7: dimgrey;
 
-	--color-lightblue-1: ghostwhite;
-	--color-lightblue-2: aliceblue;
-	--color-lightblue-3: lavender;
-	--color-lightblue-4: lightsteelblue;
+  --color-lightblue-1: ghostwhite;
+  --color-lightblue-2: aliceblue;
+  --color-lightblue-3: lavender;
+  --color-lightblue-4: lightsteelblue;
 
-	--logo-color: var(--color-neutral-1);
-	--link-color: var(--color-accent);
+  --logo-color: var(--color-neutral-1);
+  --link-color: var(--color-accent);
 
-	--cta-gradient: linear-gradient(
-		180deg,
-		var(--color-cream-1) 0%,
-		var(--color-cream-5) 100%
-	);
-	--neutral-gradient: linear-gradient(
-		180deg,
-		var(--color-white) 0%,
-		var(--color-neutral-1) 100%
-	);
+  --cta-gradient: linear-gradient(
+    180deg,
+    var(--color-cream-1) 0%,
+    var(--color-cream-5) 100%
+  );
+  --neutral-gradient: linear-gradient(
+    180deg,
+    var(--color-white) 0%,
+    var(--color-neutral-1) 100%
+  );
+
+  /* SHADOWS */
+  --elevation-1: 0 1px 3px 0 rgba(0, 58, 97, 0.2);
+  --elevation-2: 0 2px 10px 0 rgba(0, 58, 97, 0.2);
+  --elevation-3: 0 6px 20px 0 rgba(0, 58, 97, 0.2);
+  --elevation-4: 0 4px 20px 0 rgba(0, 58, 97, 0.15),
+    0 0 4px 0 rgba(0, 58, 97, 0.15);
+  --elevation-5: 0 4px 20px 0 rgba(0, 58, 97, 0.25),
+    0 0 4px 0 rgba(0, 58, 97, 0.25);
+  --elevation-6: 0 4px 20px 0 rgba(195, 224, 255, 0.5),
+    0 0 4px 0 rgba(195, 224, 255, 0.5);
 }

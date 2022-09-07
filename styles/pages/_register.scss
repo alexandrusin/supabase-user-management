@@ -93,10 +93,21 @@ hr {
 }
 
 .profile-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  .avatar {
-    width: 100%;
-    border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  &:hover {
+    box-shadow: var(--elevation-2);
+    background: var(--color-white);
   }
+}
+
+.avatar {
+  display: block;
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-xs);
+  aspect-ratio: 1/1;
 }

@@ -1,7 +1,8 @@
 import ProfileCard from '../components/ProfileCard'
 import { Profile } from '../lib/constants'
 import { supabase } from '../lib/supabaseClient'
-import { useEffect, useReducer } from 'react'
+import { useEffect, useReducer, useState } from 'react'
+import ProfileModal from './ProfileModal'
 
 /**
  * Since we want this component to update in realtime,
@@ -39,6 +40,8 @@ const handleDatabaseEvent = (state: State, action: Action) => {
 export default function ProfileList({ profiles }: ProfileListProps) {
   const initialState: State = { profiles }
   const [state, dispatch] = useReducer(handleDatabaseEvent, initialState)
+  const [showModal, setShowModal] = useState(false)
+  const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null)
 
   useEffect(() => {
     supabase
@@ -81,9 +84,20 @@ export default function ProfileList({ profiles }: ProfileListProps) {
             {state.profiles
               ?.filter((profile: any) => profile.user_type === 'model')
               .map((profile: any) => (
-                <ProfileCard profile={profile} key={profile.id} />
+                <ProfileCard
+                  profile={profile}
+                  key={profile.id}
+                  onClick={() => setSelectedProfile(profile)}
+                />
               ))}
           </div>
+          {selectedProfile && (
+            <ProfileModal
+              profile={selectedProfile}
+              key={selectedProfile.id}
+              onClose={() => setSelectedProfile(null)}
+            />
+          )}
           <br />
           <br />
           <h3>Client Profiles</h3>
@@ -93,7 +107,11 @@ export default function ProfileList({ profiles }: ProfileListProps) {
             {state.profiles
               ?.filter((profile: any) => profile.user_type === 'client')
               .map((profile: any) => (
-                <ProfileCard profile={profile} key={profile.id} />
+                <ProfileCard
+                  profile={profile}
+                  key={profile.id}
+                  onClick={() => setShowModal(!showModal)}
+                />
               ))}
           </div>
         </>
